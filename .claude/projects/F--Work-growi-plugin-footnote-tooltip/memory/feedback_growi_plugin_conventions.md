@@ -41,7 +41,16 @@ if ((window as any).pluginActivators == null) {
 
 ## growiFacade のアクセス
 
-`declare const growiFacade` ではなく `window.growiFacade` から取得する。
+`declare const growiFacade` ではなく `(window as any).growiFacade` から取得する。**必ず `activate()` 関数の中で取得すること。** モジュールのトップレベルで取得すると、スクリプト読み込み時点ではまだGrowiがセットしていないため `undefined` になる。
+
+```typescript
+const activate = (): void => {
+  const growiFacade = (window as any).growiFacade; // ここで取得
+  // ...
+};
+```
+
+**Why:** プラグインのスクリプトはGrowiが `growiFacade` をセットするより先に読み込まれる。`activate()` はGrowiの初期化完了後に呼ばれるので、その中で取得すれば確実。
 
 ## optionsGenerators のフォールバック
 
