@@ -10,14 +10,14 @@ const TOOLTIP_CSS = `
   display: none;
   position: absolute;
   bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   background-color: #fff9c4;
   border: 1px solid #f0e68c;
   border-radius: 4px;
   padding: 8px 12px;
   font-size: 0.85em;
   line-height: 1.5;
+  width: max-content;
   max-width: 300px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
