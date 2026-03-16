@@ -4,13 +4,9 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   build: {
-    lib: {
-      entry: 'client-entry.tsx',
-      formats: ['es'],
-      fileName: 'client-entry',
-    },
+    manifest: true,
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      input: ['/client-entry.tsx'],
     },
   },
 });
