@@ -35,4 +35,88 @@ describe('rehypeFootnoteTooltip', () => {
     expect(tooltipMatch).not.toBeNull();
     expect(tooltipMatch![1]).not.toContain('data-footnote-backref');
   });
+
+  it('does nothing when no footnotes exist', async () => {
+    const input = '<p>Just regular text with no footnotes.</p>';
+    const output = await process(input);
+
+    expect(output).not.toContain('footnote-tooltip');
+    expect(output).not.toContain('<style>');
+  });
+
+  it('handles multiple footnotes correctly', async () => {
+    const input = `
+      <p>First<sup><a href="#user-content-fn-1" data-footnote-ref>1</a></sup> and second<sup><a href="#user-content-fn-2" data-footnote-ref>2</a></sup></p>
+      <section data-footnotes class="footnotes">
+        <ol>
+          <li id="user-content-fn-1">
+            <p>First footnote. <a href="#user-content-fnref-1" data-footnote-backref>↩</a></p>
+          </li>
+          <li id="user-content-fn-2">
+            <p>Second footnote. <a href="#user-content-fnref-2" data-footnote-backref>↩</a></p>
+          </li>
+        </ol>
+      </section>
+    `;
+    const output = await process(input);
+
+    expect(output).toContain('First footnote.');
+    expect(output).toContain('Second footnote.');
+    const wrapperCount = (output.match(/class="footnote-tooltip-wrapper"/g) || []).length;
+    expect(wrapperCount).toBe(2);
+  });
+
+  it('removes backref links from tooltip content', async () => {
+    const input = `
+      <p>Text<sup><a href="#user-content-fn-1" data-footnote-ref>1</a></sup></p>
+      <section data-footnotes class="footnotes">
+        <ol>
+          <li id="user-content-fn-1">
+            <p>Footnote with <a href="https://example.com">a link</a>. <a href="#user-content-fnref-1" data-footnote-backref aria-label="Back to reference 1">↩</a></p>
+          </li>
+        </ol>
+      </section>
+    `;
+    const output = await process(input);
+
+    expect(output).toContain('https://example.com');
+    const backrefs = (output.match(/data-footnote-backref/g) || []).length;
+    expect(backrefs).toBe(1);
+  });
+
+  it('injects exactly one style element with tooltip CSS', async () => {
+    const input = `
+      <p>Text<sup><a href="#user-content-fn-1" data-footnote-ref>1</a></sup></p>
+      <section data-footnotes class="footnotes">
+        <ol>
+          <li id="user-content-fn-1">
+            <p>Footnote. <a href="#user-content-fnref-1" data-footnote-backref>↩</a></p>
+          </li>
+        </ol>
+      </section>
+    `;
+    const output = await process(input);
+
+    const styleCount = (output.match(/<style>/g) || []).length;
+    expect(styleCount).toBe(1);
+    expect(output).toContain('.footnote-tooltip-wrapper');
+    expect(output).toContain('background-color: #fff9c4');
+  });
+
+  it('preserves rich content in footnote tooltips', async () => {
+    const input = `
+      <p>Text<sup><a href="#user-content-fn-1" data-footnote-ref>1</a></sup></p>
+      <section data-footnotes class="footnotes">
+        <ol>
+          <li id="user-content-fn-1">
+            <p>See <code>console.log</code> and <a href="https://example.com">this link</a>. <a href="#user-content-fnref-1" data-footnote-backref>↩</a></p>
+          </li>
+        </ol>
+      </section>
+    `;
+    const output = await process(input);
+
+    expect(output).toContain('<code>console.log</code>');
+    expect(output).toContain('https://example.com');
+  });
 });
