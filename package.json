@@ -22,6 +22,7 @@
     "hast-util-from-html": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rehype-parse": "^9.0.1",
     "rehype-stringify": "^10.0.0",
     "typescript": "^5.0.0",
     "unified": "^11.0.0",
@@ -30,6 +31,8 @@
   },
   "growiPlugin": {
     "schemaVersion": 4,
-    "types": ["script"]
+    "types": [
+      "script"
+    ]
   }
 }
