@@ -1,32 +1,30 @@
+import config from './package.json' assert { type: 'json' };
 import { rehypeFootnoteTooltip } from './src/index';
-
-declare const growiFacade: any;
 
 type OptionsGenerator = (...args: any[]) => any;
 
+const growiFacade = (window as any).growiFacade;
+
 const activate = (): void => {
   console.log('[footnote-tooltip] activate() called');
-  console.log('[footnote-tooltip] growiFacade:', typeof growiFacade, growiFacade);
+  console.log('[footnote-tooltip] growiFacade:', growiFacade);
 
-  if (growiFacade == null || growiFacade.markdownRenderer == null) {
+  if (growiFacade?.markdownRenderer == null) {
     console.warn('[footnote-tooltip] growiFacade or markdownRenderer is null, aborting');
     return;
   }
 
   const { optionsGenerators } = growiFacade.markdownRenderer;
   console.log('[footnote-tooltip] optionsGenerators:', optionsGenerators);
-  console.log('[footnote-tooltip] customGenerateViewOptions:', typeof optionsGenerators.customGenerateViewOptions);
-  console.log('[footnote-tooltip] customGeneratePreviewOptions:', typeof optionsGenerators.customGeneratePreviewOptions);
 
   // ページ表示用
   const originalGenerateViewOptions: OptionsGenerator | undefined =
     optionsGenerators.customGenerateViewOptions;
   optionsGenerators.customGenerateViewOptions = (...args: any[]) => {
-    console.log('[footnote-tooltip] customGenerateViewOptions called with args:', args);
-    const options = originalGenerateViewOptions?.(...args) ?? {};
+    console.log('[footnote-tooltip] customGenerateViewOptions called');
+    const options = (originalGenerateViewOptions ?? optionsGenerators.generateViewOptions)(...args);
     options.rehypePlugins = options.rehypePlugins ?? [];
     options.rehypePlugins.push(rehypeFootnoteTooltip);
-    console.log('[footnote-tooltip] rehypePlugins after push:', options.rehypePlugins);
     return options;
   };
 
@@ -34,8 +32,8 @@ const activate = (): void => {
   const originalGeneratePreviewOptions: OptionsGenerator | undefined =
     optionsGenerators.customGeneratePreviewOptions;
   optionsGenerators.customGeneratePreviewOptions = (...args: any[]) => {
-    console.log('[footnote-tooltip] customGeneratePreviewOptions called with args:', args);
-    const options = originalGeneratePreviewOptions?.(...args) ?? {};
+    console.log('[footnote-tooltip] customGeneratePreviewOptions called');
+    const options = (originalGeneratePreviewOptions ?? optionsGenerators.generatePreviewOptions)(...args);
     options.rehypePlugins = options.rehypePlugins ?? [];
     options.rehypePlugins.push(rehypeFootnoteTooltip);
     return options;
@@ -48,7 +46,7 @@ const activate = (): void => {
 };
 
 const deactivate = (): void => {
-  if (growiFacade == null || growiFacade.markdownRenderer == null) {
+  if (growiFacade?.markdownRenderer == null) {
     return;
   }
 
@@ -65,10 +63,9 @@ const deactivate = (): void => {
 };
 
 console.log('[footnote-tooltip] script loaded, registering pluginActivators');
-console.log('[footnote-tooltip] current window.pluginActivators:', (window as any).pluginActivators);
 
 if ((window as any).pluginActivators == null) {
-  (window as any).pluginActivators = [];
+  (window as any).pluginActivators = {};
 }
-(window as any).pluginActivators.push({ activate, deactivate });
-console.log('[footnote-tooltip] registered, pluginActivators length:', (window as any).pluginActivators.length);
+(window as any).pluginActivators[config.name] = { activate, deactivate };
+console.log('[footnote-tooltip] registered as:', config.name);
