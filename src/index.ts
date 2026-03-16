@@ -72,10 +72,16 @@ function collectFootnotes(tree: Root): Map<string, ElementContent[]> {
 }
 
 export const rehypeFootnoteTooltip: Plugin<[], Root> = () => {
+  console.log('[footnote-tooltip] rehype plugin registered');
   return (tree: Root) => {
+    console.log('[footnote-tooltip] rehype plugin running, tree children:', tree.children.length);
     const footnotes = collectFootnotes(tree);
+    console.log('[footnote-tooltip] collected footnotes:', footnotes.size, [...footnotes.keys()]);
 
-    if (footnotes.size === 0) return;
+    if (footnotes.size === 0) {
+      console.log('[footnote-tooltip] no footnotes found, skipping');
+      return;
+    }
 
     // Insert tooltip spans next to footnote ref links
     visit(tree, 'element', (node: Element) => {
