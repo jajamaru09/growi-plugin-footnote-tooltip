@@ -97,7 +97,9 @@ export const rehypeFootnoteTooltip: Plugin<[], Root> = () => {
       // Add wrapper class
       node.properties = node.properties ?? {};
       const existing = node.properties.className;
-      const classes = Array.isArray(existing) ? existing : existing ? [existing] : [];
+      const classes: (string | number)[] = Array.isArray(existing)
+        ? existing.filter((c): c is string | number => typeof c === 'string' || typeof c === 'number')
+        : existing != null ? [existing as string | number] : [];
       classes.push('footnote-tooltip-wrapper');
       node.properties.className = classes;
 
