@@ -75,7 +75,6 @@
 
 ```
 node_modules/
-dist/
 ```
 
 - [ ] **Step 3: Install dependencies**
