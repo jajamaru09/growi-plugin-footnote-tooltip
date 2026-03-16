@@ -30,6 +30,9 @@ describe('rehypeFootnoteTooltip', () => {
     expect(output).toContain('footnote-tooltip-wrapper');
     expect(output).toContain('class="footnote-tooltip"');
     expect(output).toContain('This is the footnote content.');
-    expect(output).not.toMatch(/class="footnote-tooltip"[^]*data-footnote-backref/);
+    // Extract tooltip span content and verify no backref links inside it
+    const tooltipMatch = output.match(/class="footnote-tooltip">([\s\S]*?)<\/span>/);
+    expect(tooltipMatch).not.toBeNull();
+    expect(tooltipMatch![1]).not.toContain('data-footnote-backref');
   });
 });
