@@ -3,9 +3,8 @@ import { rehypeFootnoteTooltip } from './src/index';
 
 type OptionsGenerator = (...args: any[]) => any;
 
-const growiFacade = (window as any).growiFacade;
-
 const activate = (): void => {
+  const growiFacade = (window as any).growiFacade;
   console.log('[footnote-tooltip] activate() called');
   console.log('[footnote-tooltip] growiFacade:', growiFacade);
 
@@ -46,6 +45,7 @@ const activate = (): void => {
 };
 
 const deactivate = (): void => {
+  const growiFacade = (window as any).growiFacade;
   if (growiFacade?.markdownRenderer == null) {
     return;
   }
