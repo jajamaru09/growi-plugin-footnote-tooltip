@@ -1,4 +1,4 @@
-const F = (
+const A = (
   // Note: overloads in JSDoc can’t yet use different `@template`s.
   /**
    * @type {(
@@ -15,131 +15,131 @@ const F = (
    */
   function(e) {
     if (e == null)
-      return j;
+      return S;
     if (typeof e == "function")
-      return w(e);
+      return m(e);
     if (typeof e == "object")
-      return Array.isArray(e) ? R(e) : (
+      return Array.isArray(e) ? G(e) : (
         // Cast because `ReadonlyArray` goes into the above but `isArray`
         // narrows to `Array`.
-        S(
+        R(
           /** @type {Props} */
           e
         )
       );
     if (typeof e == "string")
-      return G(e);
+      return V(e);
     throw new Error("Expected function, string, or object as test");
   }
 );
-function R(e) {
+function G(e) {
   const t = [];
-  let n = -1;
-  for (; ++n < e.length; )
-    t[n] = F(e[n]);
-  return w(o);
-  function o(...r) {
-    let s = -1;
-    for (; ++s < t.length; )
-      if (t[s].apply(this, r)) return !0;
+  let o = -1;
+  for (; ++o < e.length; )
+    t[o] = A(e[o]);
+  return m(r);
+  function r(...n) {
+    let l = -1;
+    for (; ++l < t.length; )
+      if (t[l].apply(this, n)) return !0;
     return !1;
   }
 }
-function S(e) {
+function R(e) {
   const t = (
     /** @type {Record<string, unknown>} */
     e
   );
-  return w(n);
-  function n(o) {
-    const r = (
+  return m(o);
+  function o(r) {
+    const n = (
       /** @type {Record<string, unknown>} */
       /** @type {unknown} */
-      o
+      r
     );
-    let s;
-    for (s in e)
-      if (r[s] !== t[s]) return !1;
+    let l;
+    for (l in e)
+      if (n[l] !== t[l]) return !1;
     return !0;
   }
 }
-function G(e) {
-  return w(t);
-  function t(n) {
-    return n && n.type === e;
+function V(e) {
+  return m(t);
+  function t(o) {
+    return o && o.type === e;
   }
 }
-function w(e) {
+function m(e) {
   return t;
-  function t(n, o, r) {
-    return !!(E(n) && e.call(
+  function t(o, r, n) {
+    return !!(j(o) && e.call(
       this,
-      n,
-      typeof o == "number" ? o : void 0,
-      r || void 0
+      o,
+      typeof r == "number" ? r : void 0,
+      n || void 0
     ));
   }
 }
-function j() {
+function S() {
   return !0;
 }
-function E(e) {
+function j(e) {
   return e !== null && typeof e == "object" && "type" in e;
 }
-const A = [], I = !0, N = !1, k = "skip";
-function T(e, t, n, o) {
-  let r;
-  typeof t == "function" && typeof n != "function" ? (o = n, n = t) : r = t;
-  const s = F(r), l = o ? -1 : 1;
-  f(e, void 0, [])();
-  function f(i, d, p) {
-    const u = (
+const x = [], E = !0, b = !1, P = "skip";
+function I(e, t, o, r) {
+  let n;
+  typeof t == "function" && typeof o != "function" ? (r = o, o = t) : n = t;
+  const l = A(n), a = r ? -1 : 1;
+  u(e, void 0, [])();
+  function u(i, g, c) {
+    const p = (
       /** @type {Record<string, unknown>} */
       i && typeof i == "object" ? i : {}
     );
-    if (typeof u.type == "string") {
-      const c = (
+    if (typeof p.type == "string") {
+      const s = (
         // `hast`
-        typeof u.tagName == "string" ? u.tagName : (
+        typeof p.tagName == "string" ? p.tagName : (
           // `xast`
-          typeof u.name == "string" ? u.name : void 0
+          typeof p.name == "string" ? p.name : void 0
         )
       );
-      Object.defineProperty(a, "name", {
-        value: "node (" + (i.type + (c ? "<" + c + ">" : "")) + ")"
+      Object.defineProperty(f, "name", {
+        value: "node (" + (i.type + (s ? "<" + s + ">" : "")) + ")"
       });
     }
-    return a;
-    function a() {
-      let c = A, h, y, x;
-      if ((!t || s(i, d, p[p.length - 1] || void 0)) && (c = V(n(i, p)), c[0] === N))
-        return c;
+    return f;
+    function f() {
+      let s = x, y, d, k;
+      if ((!t || l(i, g, c[c.length - 1] || void 0)) && (s = T(o(i, c)), s[0] === b))
+        return s;
       if ("children" in i && i.children) {
-        const g = (
+        const h = (
           /** @type {UnistParent} */
           i
         );
-        if (g.children && c[0] !== k)
-          for (y = (o ? g.children.length : -1) + l, x = p.concat(g); y > -1 && y < g.children.length; ) {
-            const O = g.children[y];
-            if (h = f(O, y, x)(), h[0] === N)
-              return h;
-            y = typeof h[1] == "number" ? h[1] : y + l;
+        if (h.children && s[0] !== P)
+          for (d = (r ? h.children.length : -1) + a, k = c.concat(h); d > -1 && d < h.children.length; ) {
+            const O = h.children[d];
+            if (y = u(O, d, k)(), y[0] === b)
+              return y;
+            d = typeof y[1] == "number" ? y[1] : d + a;
           }
       }
-      return c;
+      return s;
     }
   }
 }
-function V(e) {
-  return Array.isArray(e) ? e : typeof e == "number" ? [I, e] : e == null ? A : [e];
+function T(e) {
+  return Array.isArray(e) ? e : typeof e == "number" ? [E, e] : e == null ? x : [e];
 }
-function b(e, t, n, o) {
-  let r, s, l;
-  s = t, l = n, r = o, T(e, s, f, r);
-  function f(i, d) {
-    const p = d[d.length - 1], u = p ? p.children.indexOf(i) : void 0;
-    return l(i, u, p);
+function v(e, t, o, r) {
+  let n, l, a;
+  l = t, a = o, n = r, I(e, l, u, n);
+  function u(i, g) {
+    const c = g[g.length - 1], p = c ? c.children.indexOf(i) : void 0;
+    return a(i, p, c);
   }
 }
 const _ = `
@@ -167,77 +167,90 @@ const _ = `
   display: block;
 }
 `.trim();
-function C(e) {
+function z(e) {
   return JSON.parse(JSON.stringify(e));
 }
-function v(e) {
-  return e.filter((t) => !(t.type === "element" && t.tagName === "a" && (t.properties ?? {}).dataFootnoteBackref != null)).map((t) => t.type === "element" && t.children ? { ...t, children: v(t.children) } : t);
+function N(e) {
+  return e.filter((t) => !(t.type === "element" && t.tagName === "a" && (t.properties ?? {}).dataFootnoteBackref != null)).map((t) => t.type === "element" && t.children ? { ...t, children: N(t.children) } : t);
 }
-function z(e) {
+function C(e) {
   const t = /* @__PURE__ */ new Map();
-  return b(e, "element", (n) => {
-    var o;
-    if (n.tagName === "section" && ((o = n.properties) == null ? void 0 : o.dataFootnotes) != null)
-      return b(n, "element", (r) => {
-        var s;
-        if (r.tagName === "li" && typeof ((s = r.properties) == null ? void 0 : s.id) == "string") {
-          const l = r.properties.id, f = C(r.children);
-          t.set(l, v(f));
+  return v(e, "element", (o) => {
+    var r;
+    if (o.tagName === "section" && ((r = o.properties) == null ? void 0 : r.dataFootnotes) != null)
+      return v(o, "element", (n) => {
+        var l;
+        if (n.tagName === "li" && typeof ((l = n.properties) == null ? void 0 : l.id) == "string") {
+          const a = n.properties.id, u = z(n.children);
+          t.set(a, N(u));
         }
-      }), k;
+      }), P;
   }), t;
 }
-const P = () => (e) => {
-  const t = z(e);
-  if (t.size === 0) return;
-  b(e, "element", (o) => {
-    var u;
-    if (o.tagName !== "sup") return;
-    const r = o.children.find(
-      (a) => {
-        var c;
-        return a.type === "element" && a.tagName === "a" && ((c = a.properties) == null ? void 0 : c.dataFootnoteRef) != null;
+const F = () => (console.log("[footnote-tooltip] rehype plugin registered"), (e) => {
+  console.log("[footnote-tooltip] rehype plugin running, tree children:", e.children.length);
+  const t = C(e);
+  if (console.log("[footnote-tooltip] collected footnotes:", t.size, [...t.keys()]), t.size === 0) {
+    console.log("[footnote-tooltip] no footnotes found, skipping");
+    return;
+  }
+  v(e, "element", (r) => {
+    var p;
+    if (r.tagName !== "sup") return;
+    const n = r.children.find(
+      (f) => {
+        var s;
+        return f.type === "element" && f.tagName === "a" && ((s = f.properties) == null ? void 0 : s.dataFootnoteRef) != null;
       }
     );
-    if (!r) return;
-    const l = String(((u = r.properties) == null ? void 0 : u.href) ?? "").replace(/^#/, ""), f = t.get(l);
-    if (!f) return;
-    o.properties = o.properties ?? {};
-    const i = o.properties.className, d = Array.isArray(i) ? i.filter((a) => typeof a == "string" || typeof a == "number") : i != null ? [i] : [];
-    d.push("footnote-tooltip-wrapper"), o.properties.className = d;
-    const p = {
+    if (!n) return;
+    const a = String(((p = n.properties) == null ? void 0 : p.href) ?? "").replace(/^#/, ""), u = t.get(a);
+    if (!u) return;
+    r.properties = r.properties ?? {};
+    const i = r.properties.className, g = Array.isArray(i) ? i.filter((f) => typeof f == "string" || typeof f == "number") : i != null ? [i] : [];
+    g.push("footnote-tooltip-wrapper"), r.properties.className = g;
+    const c = {
       type: "element",
       tagName: "span",
       properties: { className: ["footnote-tooltip"] },
-      children: f
+      children: u
     };
-    return o.children.push(p), k;
+    return r.children.push(c), P;
   });
-  const n = {
+  const o = {
     type: "element",
     tagName: "style",
     properties: {},
     children: [{ type: "text", value: _ }]
   };
-  e.children.unshift(n);
-}, m = () => {
-  if (growiFacade == null || growiFacade.markdownRenderer == null)
+  e.children.unshift(o);
+}), w = () => {
+  if (console.log("[footnote-tooltip] activate() called"), console.log("[footnote-tooltip] growiFacade:", typeof growiFacade, growiFacade), growiFacade == null || growiFacade.markdownRenderer == null) {
+    console.warn("[footnote-tooltip] growiFacade or markdownRenderer is null, aborting");
     return;
-  const { optionsGenerators: e } = growiFacade.markdownRenderer, t = e.customGenerateViewOptions;
-  e.customGenerateViewOptions = (...o) => {
-    const r = (t == null ? void 0 : t(...o)) ?? {};
-    return r.rehypePlugins = r.rehypePlugins ?? [], r.rehypePlugins.push(P), r;
+  }
+  const { optionsGenerators: e } = growiFacade.markdownRenderer;
+  console.log("[footnote-tooltip] optionsGenerators:", e), console.log("[footnote-tooltip] customGenerateViewOptions:", typeof e.customGenerateViewOptions), console.log("[footnote-tooltip] customGeneratePreviewOptions:", typeof e.customGeneratePreviewOptions);
+  const t = e.customGenerateViewOptions;
+  e.customGenerateViewOptions = (...r) => {
+    console.log("[footnote-tooltip] customGenerateViewOptions called with args:", r);
+    const n = (t == null ? void 0 : t(...r)) ?? {};
+    return n.rehypePlugins = n.rehypePlugins ?? [], n.rehypePlugins.push(F), console.log("[footnote-tooltip] rehypePlugins after push:", n.rehypePlugins), n;
   };
-  const n = e.customGeneratePreviewOptions;
-  e.customGeneratePreviewOptions = (...o) => {
-    const r = (n == null ? void 0 : n(...o)) ?? {};
-    return r.rehypePlugins = r.rehypePlugins ?? [], r.rehypePlugins.push(P), r;
-  }, m._origView = t, m._origPreview = n;
+  const o = e.customGeneratePreviewOptions;
+  e.customGeneratePreviewOptions = (...r) => {
+    console.log("[footnote-tooltip] customGeneratePreviewOptions called with args:", r);
+    const n = (o == null ? void 0 : o(...r)) ?? {};
+    return n.rehypePlugins = n.rehypePlugins ?? [], n.rehypePlugins.push(F), n;
+  }, w._origView = t, w._origPreview = o, console.log("[footnote-tooltip] activate() completed successfully");
 }, B = () => {
   if (growiFacade == null || growiFacade.markdownRenderer == null)
     return;
-  const { optionsGenerators: e } = growiFacade.markdownRenderer, t = m._origView, n = m._origPreview;
-  t !== void 0 && (e.customGenerateViewOptions = t), n !== void 0 && (e.customGeneratePreviewOptions = n);
+  const { optionsGenerators: e } = growiFacade.markdownRenderer, t = w._origView, o = w._origPreview;
+  t !== void 0 && (e.customGenerateViewOptions = t), o !== void 0 && (e.customGeneratePreviewOptions = o);
 };
+console.log("[footnote-tooltip] script loaded, registering pluginActivators");
+console.log("[footnote-tooltip] current window.pluginActivators:", window.pluginActivators);
 window.pluginActivators == null && (window.pluginActivators = []);
-window.pluginActivators.push({ activate: m, deactivate: B });
+window.pluginActivators.push({ activate: w, deactivate: B });
+console.log("[footnote-tooltip] registered, pluginActivators length:", window.pluginActivators.length);
