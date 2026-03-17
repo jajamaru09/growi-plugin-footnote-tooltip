@@ -11,7 +11,7 @@ const R="growi-plugin-footnote-tooltip",x={name:R},N=function(e){if(e==null)retu
   border: 1px solid #f0e68c;
   border-radius: 4px;
   padding: 8px 12px;
-  font-size: 0.85em;
+  font-size: 0.9em;
   line-height: 1.5;
   width: max-content;
   max-width: 300px;
