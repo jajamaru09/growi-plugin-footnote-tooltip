@@ -5,22 +5,17 @@ type OptionsGenerator = (...args: any[]) => any;
 
 const activate = (): void => {
   const growiFacade = (window as any).growiFacade;
-  console.log('[footnote-tooltip] activate() called');
-  console.log('[footnote-tooltip] growiFacade:', growiFacade);
 
   if (growiFacade?.markdownRenderer == null) {
-    console.warn('[footnote-tooltip] growiFacade or markdownRenderer is null, aborting');
     return;
   }
 
   const { optionsGenerators } = growiFacade.markdownRenderer;
-  console.log('[footnote-tooltip] optionsGenerators:', optionsGenerators);
 
   // ページ表示用
   const originalGenerateViewOptions: OptionsGenerator | undefined =
     optionsGenerators.customGenerateViewOptions;
   optionsGenerators.customGenerateViewOptions = (...args: any[]) => {
-    console.log('[footnote-tooltip] customGenerateViewOptions called');
     const options = (originalGenerateViewOptions ?? optionsGenerators.generateViewOptions)(...args);
     options.rehypePlugins = options.rehypePlugins ?? [];
     options.rehypePlugins.push(rehypeFootnoteTooltip);
@@ -31,7 +26,6 @@ const activate = (): void => {
   const originalGeneratePreviewOptions: OptionsGenerator | undefined =
     optionsGenerators.customGeneratePreviewOptions;
   optionsGenerators.customGeneratePreviewOptions = (...args: any[]) => {
-    console.log('[footnote-tooltip] customGeneratePreviewOptions called');
     const options = (originalGeneratePreviewOptions ?? optionsGenerators.generatePreviewOptions)(...args);
     options.rehypePlugins = options.rehypePlugins ?? [];
     options.rehypePlugins.push(rehypeFootnoteTooltip);
@@ -41,7 +35,6 @@ const activate = (): void => {
   // Store originals for deactivate
   (activate as any)._origView = originalGenerateViewOptions;
   (activate as any)._origPreview = originalGeneratePreviewOptions;
-  console.log('[footnote-tooltip] activate() completed successfully');
 };
 
 const deactivate = (): void => {
@@ -62,10 +55,7 @@ const deactivate = (): void => {
   }
 };
 
-console.log('[footnote-tooltip] script loaded, registering pluginActivators');
-
 if ((window as any).pluginActivators == null) {
   (window as any).pluginActivators = {};
 }
 (window as any).pluginActivators[config.name] = { activate, deactivate };
-console.log('[footnote-tooltip] registered as:', config.name);
